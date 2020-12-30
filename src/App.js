@@ -12,7 +12,7 @@ export default function App() {
 
         <Route exact path="/search-results" component={SearchResults} />
 
-        <Route exact path="/product" component={Product} />
+        <Route exact path="/product/:id" component={Product} />
       </Switch>
     </div>
   );
