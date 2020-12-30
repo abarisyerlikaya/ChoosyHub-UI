@@ -1,0 +1,8 @@
+.carousel-item > img {
+  height: 512px !important;
+  object-fit: cover !important;
+}
+
+.carousel-control-prev-icon, .carousel-control-next-icon {
+  filter: invert(1);
+}
