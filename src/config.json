@@ -1,5 +1,5 @@
 {
     "api":{
-        "ENDPOINT": "http://localhost:5000"
+        "ENDPOINT": "https://choosyhub-api.herokuapp.com"
     }
 }
