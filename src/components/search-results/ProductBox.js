@@ -17,24 +17,45 @@ export default function ProductBox(props) {
 
       <CardBody>
         <h5>
-          <a href="/product">{product.name}</a>
+          <a href={`/product?id=${product._id}`}>{product.name}</a>
         </h5>
         <h6 className="py-3">
-          <img
-            src="https://patronlarinensesindeyiz.org/wp-content/uploads/2019/09/t0CFAPzZ.jpg"
-            alt="trendyol"
-            width="18px"
-            className="rounded"
-          />{" "}
-          <a href={product._id}>
-            Trendyol <FontAwesomeIcon icon={faExternalLinkAlt} />
-          </a>
+          {product._id.includes("trendyol.com") ? (
+            <span>
+              <img
+                src="https://patronlarinensesindeyiz.org/wp-content/uploads/2019/09/t0CFAPzZ.jpg"
+                alt="trendyol"
+                width="18px"
+                className="rounded"
+              />{" "}
+              <a href={product._id}>
+                Trendyol <FontAwesomeIcon icon={faExternalLinkAlt} />
+              </a>
+            </span>
+          ) : (
+            <span>
+              <img
+                src="https://images.hepsiburada.net/cac/content/www/erised/globalAssets/images/hepsiburada-logo-1024.png"
+                alt="hepsiburada"
+                width="18px"
+                className="rounded border"
+              />{" "}
+              <a href={product._id}>
+                Hepsiburada <FontAwesomeIcon icon={faExternalLinkAlt} />
+              </a>
+            </span>
+          )}
         </h6>
         <h6>
-          <FontAwesomeIcon icon={faTag} className="text-success" /> {product.price} ₺
+          <FontAwesomeIcon icon={faTag} className="text-success" />{" "}
+          {product.price > 0 ? (
+            <span>{product.price.toLocaleString(undefined, { minimumFractionDigits: 2 })} ₺</span>
+          ) : (
+            "Fiyat bilgisi yok"
+          )}
         </h6>
         <h6>
-          <FontAwesomeIcon icon={faStar} className="text-warning" /> {product.rating}{" "}
+          <FontAwesomeIcon icon={faStar} className="text-warning" /> {product.rating.toFixed(1)}{" "}
           <small>({product.number_of_reviews} Değerlendirme)</small>
         </h6>
         <h6>

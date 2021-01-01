@@ -6,7 +6,7 @@ import config from "../../config";
 
 import FilterCollapse from "./FilterCollapse";
 import ProductBox from "./ProductBox";
-import Paginator from "../utils/Paginator";
+import Paginator from "./Paginator";
 import Loading from "../utils/Loading";
 
 export default function Content() {
@@ -63,7 +63,7 @@ export default function Content() {
         <CardBody>
           <Row className="mb-3">
             <Col>
-              <h4>"iphone 11" arama sonuçları:</h4>
+              <h4>Arama sonuçları: {key}</h4>
             </Col>
           </Row>
 

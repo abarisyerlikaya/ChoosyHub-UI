@@ -13,7 +13,7 @@ export default function Main() {
   const redirectToResults = () => history.push(`/search-results?key=${key}&page=1`);
 
   return (
-    <Container fluid className="d-flex justify-content-center" style={{ height: "100vh" }}>
+    <Container fluid className="d-flex justify-content-center" style={{ "min-height": "100vh" }}>
       <Row className="my-auto w-100 d-flex justify-content-center">
         <Col className="pb-5 mb-5" md="4" xs="12">
           <Row className="my-3">

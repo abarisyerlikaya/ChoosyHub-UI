@@ -7,7 +7,7 @@ import Footer from "../utils/Footer";
 
 export default function Product() {
   return (
-    <div>
+    <div className="d-flex flex-column justify-content-between" style={{ "min-height": "100vh" }}>
       <Navi />
       <Container fluid>
         <Row className="d-flex justify-content-center">

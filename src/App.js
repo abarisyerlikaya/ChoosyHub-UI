@@ -6,13 +6,13 @@ import Product from "./components/product/Product";
 
 export default function App() {
   return (
-    <div className="bg-light">
+    <div className="bg-light" style={{ "scroll-behavior": "smooth" }}>
       <Switch>
         <Route exact path="/" component={Main} />
 
         <Route exact path="/search-results" component={SearchResults} />
 
-        <Route exact path="/product/:id" component={Product} />
+        <Route exact path="/product" component={Product} />
       </Switch>
     </div>
   );

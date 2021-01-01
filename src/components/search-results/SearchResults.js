@@ -7,7 +7,7 @@ import Footer from "../utils/Footer";
 
 export default function SearchResults() {
   return (
-    <div className="d-flex flex-column justify-content-between" style={{ height: "100vh" }}>
+    <div className="d-flex flex-column justify-content-between" style={{ "min-height": "100vh" }}>
       <Navi />
       <Container fluid>
         <Row className="d-flex justify-content-center">

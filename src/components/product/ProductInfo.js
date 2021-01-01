@@ -5,19 +5,13 @@ import { faTag, faStar, faComment, faExternalLinkAlt } from "@fortawesome/free-s
 
 import CommentBox from "./CommentBox";
 
-export default function ProductInfo() {
-  const items = [
-    {
-      src: "https://cdn.dsmcdn.com/assets/product/media/images/20191017/19/437470/57616611/1/1_org_zoom.jpg",
-      altText: "Slide 1",
-      key: "1",
-    },
-    {
-      src: "https://cdn.dsmcdn.com/assets/product/media/images/20191017/19/437470/57616611/2/2_org_zoom.jpg",
-      altText: "Slide 2",
-      key: "2",
-    },
-  ];
+export default function ProductInfo(props) {
+  const product = props.product;
+  const pics = product.pictures;
+
+  const items = [];
+
+  pics.forEach((pic, i) => items.push({ src: pic, altText: `pic-${(i + 1).toString()}`, key: (i + 1).toString() }));
 
   return (
     <Card className="my-3 shadow-sm">
@@ -29,36 +23,57 @@ export default function ProductInfo() {
           <Col className="d-flex flex-column justify-content-between">
             <Row>
               <Col>
-                <h4>Apple iPhone 11 128GB</h4>
-                <h5 className="py-3">
-                  <img
-                    src="https://patronlarinensesindeyiz.org/wp-content/uploads/2019/09/t0CFAPzZ.jpg"
-                    alt="trendyol"
-                    width="24px"
-                    className="rounded"
-                  />{" "}
-                  <a href="/">
-                    Trendyol <FontAwesomeIcon icon={faExternalLinkAlt} />
-                  </a>
+                <h5>{product.name}</h5>
+                <h6 className="py-3">
+                  {product._id.includes("trendyol.com") ? (
+                    <span>
+                      <img
+                        src="https://patronlarinensesindeyiz.org/wp-content/uploads/2019/09/t0CFAPzZ.jpg"
+                        alt="trendyol"
+                        width="24px"
+                        className="rounded"
+                      />{" "}
+                      <a href={product._id}>
+                        Trendyol <FontAwesomeIcon icon={faExternalLinkAlt} />
+                      </a>
+                    </span>
+                  ) : (
+                    <span>
+                      <img
+                        src="https://images.hepsiburada.net/cac/content/www/erised/globalAssets/images/hepsiburada-logo-1024.png"
+                        alt="hepsiburada"
+                        width="24px"
+                        className="rounded border"
+                      />{" "}
+                      <a href={product._id}>
+                        Hepsiburada <FontAwesomeIcon icon={faExternalLinkAlt} />
+                      </a>
+                    </span>
+                  )}
+                </h6>
+                <h5>
+                  <FontAwesomeIcon icon={faTag} className="text-success" />{" "}
+                  {product.price > 0 ? <span>{product.price.toLocaleString("en")} ₺</span> : "Fiyat bilgisi yok"}
                 </h5>
-                <h4>
-                  <FontAwesomeIcon icon={faTag} className="text-success" /> 8.428,00 ₺
-                </h4>
-                <h4>
-                  <FontAwesomeIcon icon={faStar} className="text-warning" /> 4,6 Puan{" "}
-                  <small>(1093 Değerlendirme)</small>
-                </h4>
-                <h4>
-                  <FontAwesomeIcon icon={faComment} className="text-info" /> 748 Yorum
-                </h4>
+                <h5>
+                  <FontAwesomeIcon icon={faStar} className="text-warning" /> {product.rating.toFixed(1)} Puan{" "}
+                  <small>({product.number_of_reviews} Değerlendirme)</small>
+                </h5>
+                <h5>
+                  <FontAwesomeIcon icon={faComment} className="text-info" /> {product.number_of_comments} Yorum
+                </h5>
               </Col>
             </Row>
-            <Row>
-              <Col>
-                <h6>En son yorum:</h6>
-                <CommentBox />
-              </Col>
-            </Row>
+            {product.comments && product.comments.length > 0 ? (
+              <Row>
+                <Col>
+                  <h6>Öne çıkan yorum:</h6>
+                  <CommentBox comment={product.comments[0]} />
+                </Col>
+              </Row>
+            ) : (
+              ""
+            )}
           </Col>
         </Row>
       </CardBody>
