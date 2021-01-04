@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Card, CardBody, CardImg } from "reactstrap";
+import { Card, CardBody, CardImg } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTag, faStar, faComment, faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 
@@ -7,19 +7,19 @@ export default function ProductBox(props) {
   const product = props.product;
 
   return (
-    <Card className="no-gutters d-flex flex-row justify-content-between" style={{ height: "100%" }}>
+    <Card className="no-gutters d-flex flex-row flex-sm justify-content-between" style={{ height: "100%" }}>
       <CardImg
-        style={{ width: "190px", height: "100%", "object-fit": "cover" }}
+        style={{ width: "50%", height: "100%", "object-fit": "cover" }}
         className="border-right"
         src={product.pictures[0]}
         alt="box-product-img"
       />
 
       <CardBody>
-        <h5>
+        <h6>
           <a href={`/product?id=${product._id}`}>{product.name}</a>
-        </h5>
-        <h6 className="py-3">
+        </h6>
+        <p className="py-3 font-weight-bold">
           {product._id.includes("trendyol.com") ? (
             <span>
               <img
@@ -45,7 +45,7 @@ export default function ProductBox(props) {
               </a>
             </span>
           )}
-        </h6>
+        </p>
         <h6>
           <FontAwesomeIcon icon={faTag} className="text-success" />{" "}
           {product.price > 0 ? (

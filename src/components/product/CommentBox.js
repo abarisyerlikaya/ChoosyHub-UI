@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardTitle, CardBody, CardSubtitle, CardText, Row, Col, UncontrolledCarousel } from "reactstrap";
+import { Card, CardTitle, CardBody, CardSubtitle, CardText } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 
@@ -32,7 +32,9 @@ export default function CommentBox(props) {
           </h6>
         </CardTitle>
         <CardText>{comment.comment}</CardText>
-        <CardSubtitle className="text-right font-italic">{comment.date}</CardSubtitle>
+        <CardSubtitle className="text-right font-italic">
+          {comment.date.split("-")[2]}.{comment.date.split("-")[1]}.{comment.date.split("-")[0]}
+        </CardSubtitle>
       </CardBody>
     </Card>
   );

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
 
@@ -42,7 +43,7 @@ export default function Paginator(props) {
   }, [page]);
 
   return (
-      <Pagination aria-label="page-navigation" className="mt-2">
+      <Pagination size="sm" aria-label="page-navigation" className="mt-2">
         <PaginationItem>
           <PaginationLink first id="first" onClick={handlePageClick} href="#comments-top" />
         </PaginationItem>

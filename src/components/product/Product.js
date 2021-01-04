@@ -11,7 +11,7 @@ export default function Product() {
       <Navi />
       <Container fluid>
         <Row className="d-flex justify-content-center">
-          <Col xs="9">
+          <Col xs="12" lg="9">
             <Content />
           </Col>
         </Row>

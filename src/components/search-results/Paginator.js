@@ -1,12 +1,14 @@
 import React from "react";
 import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 
 export default function Paginator(props) {
   const page = props.page;
   const pageCount = props.pageCount;
 
-  const url = (useLocation().pathname + useLocation().search).split("&page=")[0];
+  const { pathname, search } = useLocation();
+  const params = new URLSearchParams(search);
+  const history = useHistory();
 
   const getPageList = (totalPages, page, maxLength) => {
     const range = (start, end) => Array.from(Array(end - start + 1), (_, i) => i + start);
@@ -28,13 +30,25 @@ export default function Paginator(props) {
 
   const visiblePages = getPageList(pageCount, page, 7);
 
+  const goToPage = (event) => {
+    const id = event.currentTarget.id;
+
+    if (id === "first") params.set("page", 1);
+    else if (id === "previous" && page !== 1) params.set("page", page - 1);
+    else if (id === "next" && page !== pageCount) params.set("page", page + 1);
+    else if (id === "last") params.set("page", pageCount);
+    else if (!isNaN(id)) params.set("page", id);
+
+    history.push(pathname + "?" + params.toString());
+  };
+
   return (
-    <Pagination aria-label="page-navigation"  className="mt-2">
+    <Pagination size="sm" aria-label="page-navigation" className="mt-2">
       <PaginationItem>
-        <PaginationLink first href={`${url}&page=1`} />
+        <PaginationLink first id="first" onClick={goToPage} />
       </PaginationItem>
       <PaginationItem>
-        <PaginationLink previous href={`${url}&page=${page - 1}`} />
+        <PaginationLink previous id="previous" onClick={goToPage} />
       </PaginationItem>
 
       {visiblePages.map((i) => {
@@ -47,21 +61,25 @@ export default function Paginator(props) {
         if (i === page)
           return (
             <PaginationItem active>
-              <PaginationLink href={`${url}&page=${i}`}>{i}</PaginationLink>
+              <PaginationLink id={i} onClick={goToPage}>
+                {i}
+              </PaginationLink>
             </PaginationItem>
           );
         return (
           <PaginationItem>
-            <PaginationLink href={`${url}&page=${i}`}>{i}</PaginationLink>
+            <PaginationLink id={i} onClick={goToPage}>
+              {i}
+            </PaginationLink>
           </PaginationItem>
         );
       })}
 
       <PaginationItem>
-        <PaginationLink next href={`${url}&page=${page + 1}`} />
+        <PaginationLink next id="next" onClick={goToPage} />
       </PaginationItem>
       <PaginationItem>
-        <PaginationLink last href={`${url}&page=${pageCount}`} />
+        <PaginationLink last id="last" onClick={goToPage} />
       </PaginationItem>
     </Pagination>
   );

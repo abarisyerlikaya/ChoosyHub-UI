@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import React from "react";
 import { Container, Row, Col, Input, Button } from "reactstrap";
+import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 export default function Main() {
-  const [key, setKey] = useState("");
-
   const history = useHistory();
 
-  const handleInputChange = (event) => setKey(event.target.value);
-  const redirectToResults = () => history.push(`/search-results?key=${key}&page=1`);
+  const params = new URLSearchParams();
+
+  const handleInputChange = (event) => params.set("key", event.target.value);
+  const redirectToResults = () => history.push("/search-results" + (params ? "?" + params.toString() : ""));
 
   return (
     <Container fluid className="d-flex justify-content-center" style={{ "min-height": "100vh" }}>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Card, CardBody, Row, Col, UncontrolledCarousel } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTag, faStar, faComment, faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
@@ -17,10 +17,10 @@ export default function ProductInfo(props) {
     <Card className="my-3 shadow-sm">
       <CardBody>
         <Row>
-          <Col xs="5">
+          <Col xs="12" md="5" className="my-2">
             <UncontrolledCarousel id="product-slide" indicators={false} items={items} className="border" />
           </Col>
-          <Col className="d-flex flex-column justify-content-between">
+          <Col className="d-flex flex-column justify-content-between my-2">
             <Row>
               <Col>
                 <h5>{product.name}</h5>

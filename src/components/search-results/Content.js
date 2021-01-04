@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { Card, CardBody, Row, Col, Input } from "reactstrap";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import axios from "axios";
 import config from "../../config";
 
@@ -8,15 +9,20 @@ import FilterCollapse from "./FilterCollapse";
 import ProductBox from "./ProductBox";
 import Paginator from "./Paginator";
 import Loading from "../utils/Loading";
+import NoResult from "./NoResult";
 
 export default function Content() {
-  const params = new URLSearchParams(useLocation().search);
-  const key = params.get("key");
-  const page = parseInt(params.get("page"));
-
   const [pageCount, setPageCount] = useState(null);
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState(null);
   const [isLoading, setLoading] = useState(true);
+
+  const { pathname, search } = useLocation();
+  const history = useHistory();
+
+  const params = new URLSearchParams(search);
+  const key = params.get("key") || "";
+  const page = parseInt(params.get("page")) || 1;
+  const sortBy = params.get("sortBy") || "numberOfReviews";
 
   useEffect(() => {
     const getProducts = async () => {
@@ -25,34 +31,52 @@ export default function Content() {
       const endPoint = config.api.ENDPOINT;
 
       try {
-        const response = await axios.get(`${endPoint}/products?name=${key}&page=${page}`);
-        setProducts(response.data.body);
-        setPageCount(response.data.meta.pageCount);
-        console.log(response.data.body);
+        const response = await axios.get(`${endPoint}/products${params ? "?" + params.toString() : ""}`);
+        if (response.data.body.length > 0) {
+          setProducts(response.data.body);
+          setPageCount(response.data.meta.pageCount);
+        }
       } catch (err) {
-        console.error(err);
+        history.push("/500");
       }
       setLoading(false);
     };
     getProducts();
-  }, []);
+  }, [search]);
+
+  const handleInputChange = (event) => {
+    const index = event.target.selectedIndex;
+    const value = event.target.childNodes[index].value;
+
+    params.set("sortBy", value);
+
+    history.push(pathname + "?" + params.toString());
+  };
 
   if (isLoading) return <Loading />;
+  if (!products) return <NoResult />;
   return (
     <div>
       <Card className="my-3 shadow-sm">
-        <CardBody className="pb-1">
+        <CardBody className="pb-2">
           <Row>
-            <Col xs="6">
+            <Col xs="12" sm="6">
               <FilterCollapse />
             </Col>
-            <Col xs="4" className="ml-auto">
-              <Input type="select" size="sm" name="select">
-                <option>Varsayılan sıralama</option>
-                <option>Fiyata göre sırala</option>
-                <option>Puana göre sırala</option>
-                <option>Değerlendirme sayısına göre sırala</option>
-                <option>Yorum sayısına göre sırala</option>
+            <Col xs="12" sm="4" className="ml-auto">
+              <Input
+                type="select"
+                size="sm"
+                name="sortBy"
+                defaultValue={sortBy}
+                onChange={handleInputChange}
+                className="mb-2"
+              >
+                <option value="numberOfReviews">Değerlendirme sayısına göre sırala</option>
+                <option value="numberOfComments">Yorum sayısına göre sırala</option>
+                <option value="rating">Puana göre sırala</option>
+                <option value="priceAsc">Fiyata göre sırala (artan)</option>
+                <option value="priceDsc">Fiyata göre sırala (azalan)</option>
               </Input>
             </Col>
           </Row>
@@ -69,14 +93,14 @@ export default function Content() {
 
           <Row>
             {products.map((product) => (
-              <Col xs="6" className="py-2">
+              <Col xs="12" md="6" className="py-2">
                 <ProductBox product={product} />
               </Col>
             ))}
           </Row>
 
           <Row className="mt-4">
-            <Col className="d-flex justify-content-center">
+            <Col className="w-100 d-flex justify-content-center">
               <Paginator page={page} pageCount={pageCount} />
             </Col>
           </Row>

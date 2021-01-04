@@ -6,7 +6,7 @@ import Paginator from "./Paginator";
 
 export default function Comments(props) {
   const comments = props.comments;
-  const pageCount = Math.floor(comments.length / 10) + 1;
+  const pageCount = Math.ceil(comments.length / 10);
   const [page, setPage] = useState(1);
 
   const updatePage = (page) => setPage(page);
@@ -29,7 +29,7 @@ export default function Comments(props) {
         ))}
 
         <Row>
-          <Col className="d-flex justify-content-center">
+          <Col className="w-100 d-flex justify-content-center">
             <Paginator page={page} pageCount={pageCount} updatePage={updatePage} />
           </Col>
         </Row>
