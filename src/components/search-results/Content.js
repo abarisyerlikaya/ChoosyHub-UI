@@ -32,10 +32,8 @@ export default function Content() {
 
       try {
         const response = await axios.get(`${endPoint}/products${params ? "?" + params.toString() : ""}`);
-        if (response.data.body.length > 0) {
-          setProducts(response.data.body);
-          setPageCount(response.data.meta.pageCount);
-        }
+        setProducts(response.data.body);
+        setPageCount(response.data.meta.pageCount);
       } catch (err) {
         history.push("/500");
       }
@@ -54,7 +52,7 @@ export default function Content() {
   };
 
   if (isLoading) return <Loading />;
-  if (!products) return <NoResult />;
+  if (!products || products.length === 0) return <NoResult />;
   return (
     <div>
       <Card className="my-3 shadow-sm">
